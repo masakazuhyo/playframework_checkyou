@@ -1,0 +1,13 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                             controllers.ChecksController.index()
+GET     /index                        controllers.ChecksController.index()
+POST     /result                       controllers.ChecksController.result()
+GET     /result/:id                    controllers.ChecksController.resultId(id: Long)
+GET     /recent/:page                  controllers.ChecksController.recent(page: Integer)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

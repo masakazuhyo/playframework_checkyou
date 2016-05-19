@@ -1,4 +1,4 @@
-package utils;
+package models.utils;
 
 import play.Play;
 import java.util.List;
@@ -16,12 +16,5 @@ public class ConfigUtil {
     public static Option<List<String>> getByList(String key) {
         return OptionUtil.apply(Play.application().configuration().getStringList(key));
     }
-
-	public String get(int i) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-
-
 
 }

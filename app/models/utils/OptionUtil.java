@@ -1,8 +1,7 @@
-package utils;
+package models.utils;
 
-import java.util.List;
-
-import play.libs.F;
+import play.libs.*;
+import java.util.*;
 
 public class OptionUtil {
 
@@ -14,16 +13,6 @@ public class OptionUtil {
         }
     }
 
-
-    public static <A> F.Option<List<A>> apply(List<A> value) {
-        if(value != null && value.size() != 0) {
-            return F.Option.Some(value);
-        } else {
-            return F.Option.None();
-        }
-    }
-
-
     public static <String> F.Option<String> applyWithString(String value) {
         if(value != null && !value.equals("")) {
             return F.Option.Some(value);
@@ -34,5 +23,13 @@ public class OptionUtil {
 
     public static <T> F.None<T> none() {
         return new F.None<T>();
+    }
+
+    public static <A> F.Option<List<A>> apply(List<A> value) {
+        if(value != null && value.size() != 0) {
+            return F.Option.Some(value);
+        } else {
+            return F.Option.None();
+        }
     }
 }

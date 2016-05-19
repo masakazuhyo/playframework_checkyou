@@ -1,4 +1,4 @@
-package models.request.Check;
+package models.request;
 
 import play.data.validation.*;
 

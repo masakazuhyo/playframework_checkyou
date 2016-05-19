@@ -1,8 +1,29 @@
-@(title: String, message: String,
-entryList: java.util.List[models.entity.Check],
-page: Integer,
-maxPage: Integer)
+@(title: String, message: String, entryList: java.util.List[models.entity.Check], page: Integer, maxPage: Integer)
 
-@main(title) {
-
-}
+    @main(title) {
+      <h1>@title</h1>
+      <p>@message</p>
+      <div class="table-responsive">
+         <table class="table">
+             <thead>
+                  <tr>
+                    <th class="table-column-first">お名前</th>
+                    <th class="table-column-second">診断結果</th>
+                    <th class="table-column-third">シェア用ページ</th>
+                    <th class="table-column-fourth">登録日時</th>
+                  </tr>
+            </thead>
+            <tbody>
+              @for(data <- entryList){
+                <tr>
+                  <td class="table-column-first">@data.name</td>
+                  <td class="table-column-second">@data.result</td>
+                  <td class="table-column-third"><a href="http://localhost:9000/result/@data.id">LINK</td>
+                  <td class="table-column-fourth">@data.created</td>
+                </tr>
+              }
+            </tbody>
+        </table>
+      </div>
+      @helper.pagenate(page, maxPage)
+    }

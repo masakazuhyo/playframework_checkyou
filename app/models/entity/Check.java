@@ -1,21 +1,13 @@
 package models.entity;
 
-import models.service.Check.CheckModelService;
-import models.service.Check.CheckService;
-
-//import java.beans.Transient;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-import javax.validation.Constraint;
-
-import play.db.ebean.Model;
-import play.libs.F.Option;
+import javax.persistence.*;
+import play.db.ebean.*;
 import play.data.validation.*;
+import java.util.Date;
 import play.data.format.*;
+import models.service.CheckModelService;
+import play.libs.F.Option;
+import java.util.*;
 
 @Entity
 public class Check extends Model {
@@ -34,6 +26,9 @@ public class Check extends Model {
 
     @Formats.DateTime(pattern="yyyy/MM/dd")
     public Date modified;
+
+    @Transient  // 永続化しないフィールドを定義。Transient付けないとDBのフィールドとして処理されようとしてエラーになる
+    private CheckModelService checkModelService = new CheckModelService();
 
 
     // コンストラクタ設定
@@ -59,43 +54,44 @@ public class Check extends Model {
         this.modified = new Date();
     }
 
+    public String result() {
+        // TODO: 返り値、返り値型後で決める
+        // TODO: DB処理など
+          return "TODO";
+      }
 
-    @Transient
-    private CheckModelService checkModelService = new CheckModelService();
 
-    @Transient
-    private CheckService checkService = new CheckService();
-
- // 診断結果を取得
-    public Option<String> result() {
-		return null;
-          //　要実装
-
-    }
-
-    // 結果を保存
+      // 結果を保存
     public Option<Check> store() {
         return checkModelService.save(this);
     }
 
-    // idに該当するものを検索
-    public Option<Check> unique() {
-        return checkModelService.findById(id);
-    }
+      // idに該当するものを検索
+      public Option<Check> unique() {
+          return checkModelService.findById(id);
+      }
 
-    // 指定ページの一覧
-    public Option<List<Check>> entitiesList(Integer page) {
-		return null;
-    	// 要実装
-    	// CheckModelServiceクラスのメソッド呼び出し
-    }
+      public static Finder<Long, Check> find =
+    		    new Finder<Long, Check>(Long.class, Check.class);
 
-    // ページ結果を取得
-    public Integer entitiesMaxPage(Integer value) {
-		return value;
-        // 要実装
-        // CheckModelServiceのgetMaxPage呼び出し。最大ページ数取得できない場合、valueを返す
-    }
+     @Override
+     public String toString() {
+  	    return ("[id:" + id + ", name:" + name + ",result:" + result +
+    		   ",created:" + created + ",modified:" + modified + "]");
+     }
+
+     public Option<List<Check>> entitiesList(Integer page) {
+    	 return checkModelService.findWithPage(page);
+     }
+
+     public Integer entitiesMaxPage(Integer value) {
+         // CheckModelServiceのgetMaxPage呼び出し。最大ページ数取得できない場合、valueを返す
+    	 if(checkModelService.getMaxPage().isDefined()){
+    		 return checkModelService.getMaxPage().get();
+    	 }else{
+    		 return value;
+    	 }
+     }
 
 
 }

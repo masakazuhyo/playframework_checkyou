@@ -1,9 +1,8 @@
-@(title: String, message: String, bindForm: Form[models.request.Check.ResultPostRequest])
+@(title: String, message: String, bindForm: Form[models.request.ResultPostRequest])
 
 @import helper._
 
 @implicitField = @{ FieldConstructor(inputForm.f) }
-
 
 @main(title) {
     <h2 class="copy-align">@message</h2>
